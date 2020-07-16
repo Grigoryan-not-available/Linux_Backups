@@ -21,7 +21,7 @@ systemctl restart zabbix-server
 cat /var/log/zabbix/zabbix_server.log
 sleep 5 
 systemctl restart php-fpm
-sudo cp -rf /mnt/backup/zabbix/16.06.2020/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+sudo cp -rf /mnt/backup/zabbix/$date_for_restore/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 nginx -t
 nginx -s reload
 chown -R nginx:nginx /var/lib/php/session
