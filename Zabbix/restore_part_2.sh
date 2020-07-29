@@ -3,12 +3,12 @@ date_for_restore=29.07.2020
 yum install -y zabbix-server-mysql zabbix-web-mysql
 df -h
 #sudo cp /mnt/backup/zabbix/$date_for_restore/zabbix_$date_for_restore.sql .
-sshpass -p 'Gt@85pass' scp -rpf ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/zabbix_$date_for_restore.sql .
+sshpass -p 'Gt@85pass' scp -rp ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/zabbix_$date_for_restore.sql .
 mysql -uzabbix -psmall_zabix zabbix < zabbix_$date_for_restore.sql
 df -h
 sleep 5
 #sudo cp -rpf /mnt/backup/zabbix/$date_for_restore/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf
-sshpass -p 'Gt@85pass' scp -rpf ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf
+sshpass -p 'Gt@85pass' scp -rp ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf
 systemctl start zabbix-server
 systemctl enable zabbix-server
 cat /var/log/zabbix/zabbix_server.log
@@ -24,7 +24,7 @@ cat /var/log/zabbix/zabbix_server.log
 sleep 5 
 systemctl restart php-fpm
 #sudo cp -rf /mnt/backup/zabbix/$date_for_restore/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-sshpass -p 'Gt@85pass' scp -rpf ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+sshpass -p 'Gt@85pass' scp -rp ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 nginx -t
 nginx -s reload
 chown -R nginx:nginx /var/lib/php/session
