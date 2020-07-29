@@ -40,3 +40,4 @@ mysql -uroot -p
 #create database zabbix character set utf8 collate utf8_bin;
 #grant all privileges on zabbix.* to zabbix@localhost identified by 'small_zabix' WITH GRANT OPTION;
 #exit
+
