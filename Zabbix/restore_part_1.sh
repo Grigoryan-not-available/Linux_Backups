@@ -1,4 +1,6 @@
 #!/bin/bash
+#first - connect via ssh
+#ssh ihor@192.168.0.86
 date_for_restore=29.07.2020
 yum install sshpass -y
 sshpass -p 'Gt@85pass' ssh ihor@192.168.0.86 "ls /mnt/reserve_backup/Zabbix/$date_for_restore"
