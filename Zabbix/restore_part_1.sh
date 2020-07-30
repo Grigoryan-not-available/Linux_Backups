@@ -1,9 +1,9 @@
 #!/bin/bash
-#first - connect via ssh
-#ssh ihor@192.168.0.86
 date_for_restore=29.07.2020
-yum install sshpass -y
-sshpass -p 'Gt@85pass' ssh ihor@192.168.0.86 "ls /mnt/reserve_backup/Zabbix/$date_for_restore"
+sudo yum install -y cifs-utils
+mkdir /mnt/backup
+mount.cifs //192.168.0.201/pilot_test_zabbix_back /mnt/backup -o user=duplicity,password=Backup_123
+ls /mnt/backup
 sleep 5
 systemctl stop firewalld
 systemctl disable firewalld
@@ -20,19 +20,16 @@ systemctl start php-fpm
 systemctl enable php-fpm
 netstat -tulpn | grep php-fpm
 sleep 5
-#sudo cp -rpf /mnt/backup/zabbix/$date_for_restore/php-fpm.d/www.conf /etc/php-fpm.d/www.conf
-sshpass -p 'Gt@85pass' scp -rp ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/php-fpm.d/www.conf /etc/php-fpm.d/www.conf
+sudo cp -rpf /mnt/backup/zabbix/$date_for_restore/php-fpm.d/www.conf /etc/php-fpm.d/www.conf
 systemctl restart php-fpm
 ll /var/run/php-fpm/php-fpm.sock 
 sleep 5
-#sudo cp -rpf /mnt/backup/zabbix/mariadb.repo /etc/yum.repos.d/
-sshpass -p 'Gt@85pass' scp -rp ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/mariadb.repo /etc/yum.repos.d/
+sudo cp -rpf /mnt/backup/zabbix/mariadb.repo /etc/yum.repos.d/
 yum install -y MariaDB-server MariaDB-client
 systemctl start mariadb
 systemctl enable mariadb
 /usr/bin/mysql_secure_installation
-#sudo cp -rpf /mnt/backup/zabbix/$date_for_restore/my.cnf.d/server.cnf /etc/my.cnf.d/server.cnf
-sshpass -p 'Gt@85pass' scp -rp ihor@192.168.0.86:/mnt/reserve_backup/Zabbix/$date_for_restore/my.cnf.d/server.cnf /etc/my.cnf.d/server.cnf
+sudo cp -rpf /mnt/backup/zabbix/$date_for_restore/my.cnf.d/server.cnf /etc/my.cnf.d/server.cnf
 systemctl restart mariadb
 systemctl status mariadb.service
 sleep 5
@@ -42,4 +39,3 @@ mysql -uroot -p
 #create database zabbix character set utf8 collate utf8_bin;
 #grant all privileges on zabbix.* to zabbix@localhost identified by 'small_zabix' WITH GRANT OPTION;
 #exit
-
